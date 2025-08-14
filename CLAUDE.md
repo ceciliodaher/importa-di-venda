@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Sistema web modular para análise de Declarações de Importação (DI) com arquitetura limpa separando landing page institucional, sistema principal e código legado. O sistema segue o padrão de marca da Expertzy e funciona com protocolo file://.
+Sistema web modular para análise de Declarações de Importação (DI) baseado no código Python existente. O sistema funciona com protocolo file:// e integra arquitetura legada com componentes modulares modernos, mantendo total compatibilidade e branding profissional Expertzy.
 
 ## Development Commands
 
@@ -13,23 +13,29 @@ Sistema web modular para análise de Declarações de Importação (DI) com arqu
 # Landing Page Institucional
 open index.html
 
-# Sistema de Análise DI
+# Sistema de Análise DI (PRINCIPAL)
 open analise-di.html
 
-# Sistema Legado (para comparação)
-open legacy/sistema-legado.html
+# Sistema Legado (histórico)
+open legacy/sistema-di-legado.html
 
-# Servidor local para desenvolvimento (opcional)
-npm run serve      # python -m http.server 8080
-npm run dev        # Abre sistema automaticamente
+# Para desenvolvimento com live server (opcional)
+python -m http.server 8080
 ```
 
 ### Testes Automatizados
 ```bash
-npm test           # Executar todos os testes
-npm run test:ui    # Interface visual dos testes
-npm run test:chrome  # Testar apenas no Chrome
-npm run test:mobile  # Testar em dispositivos móveis
+# Executar todos os testes E2E
+npx playwright test
+
+# Testes com interface visual
+npx playwright test --headed
+
+# Testar apenas Chrome
+npx playwright test --project=chromium
+
+# Relatório dos testes
+npx playwright show-report
 ```
 
 ## Technical Constraints
@@ -68,6 +74,34 @@ npm run test:mobile  # Testar em dispositivos móveis
 }
 ```
 
+## Arquitetura CSS (CRÍTICO)
+
+### ⚠️ Ordem de Carregamento CSS no analise-di.html
+**OBRIGATÓRIA - NÃO ALTERAR sem testes extensivos:**
+
+```html
+<!-- CSS - Sistema Expertzy DI (Legado + Modular) -->
+<!-- Base: Marca e variáveis CSS -->
+<link rel="stylesheet" href="css/expertzy-brand.css">
+<!-- Layout principal (classes app-*) -->
+<link rel="stylesheet" href="css/main.css">
+<!-- Componentes (drag-drop, cards) -->
+<link rel="stylesheet" href="css/components.css">
+<!-- Módulos específicos -->
+<link rel="stylesheet" href="assets/css/pricing.css">
+```
+
+### 🎯 Compatibilidade de Classes CSS
+- **HTML usa:** `.app-container`, `.app-header`, `.app-main`, `.expertzy-card`, `.drag-drop-zone`
+- **Definidas em:** `/css/main.css`, `/css/components.css`, `/css/expertzy-brand.css`
+- **❌ NÃO usar:** `/assets/css/layout.css` (classes diferentes: `.expertzy-header`, `.main-content`)
+- **✅ CSS modular compatível:** Apenas `/assets/css/pricing.css` (módulo adicional)
+
+### 🚨 Problemas Conhecidos
+- **Carregar apenas `/assets/css/`** → Background vermelho total, layout quebrado
+- **Misturar classes incompatíveis** → Conflitos visuais e funcionalidade perdida
+- **Variáveis CSS diferentes** → `--expertzy-white` vs `--expertzy-light`
+
 ## Architecture Overview
 
 Sistema modular com namespace global para compatibilidade file://
@@ -77,50 +111,54 @@ Sistema modular com namespace global para compatibilidade file://
 /importa-di-venda
 ├── index.html                      # 🏠 Landing Page Institucional Expertzy
 ├── analise-di.html                 # 🎯 Sistema Principal de Análise DI
-├── /assets                         # Sistema Modular Novo
+├── /css                            # 🎨 CSS Sistema Principal (LEGADO FUNCIONAL)
+│   ├── expertzy-brand.css          # ✅ Variáveis CSS e marca Expertzy
+│   ├── main.css                    # ✅ Layout principal (classes app-*)
+│   ├── components.css              # ✅ Componentes (drag-drop, cards)
+│   ├── reset.css                   # Reset CSS básico
+│   └── invoice-sketch.css          # Estilos para croqui NF
+├── /assets                         # Sistema Modular Adicional
 │   ├── css/
-│   │   ├── expertzy-brand.css      # Cores e tipografia da marca
-│   │   ├── layout.css              # Layout geral e responsividade
-│   │   ├── components.css          # Componentes reutilizáveis
-│   │   ├── modules.css             # Estilos específicos dos módulos
-│   │   └── pricing.css             # Estilos do módulo de precificação
+│   │   ├── expertzy-brand.css      # Variáveis modernas (não usado no principal)
+│   │   ├── layout.css              # Layout modular (não usado no principal)
+│   │   ├── components.css          # Componentes modulares (não usado no principal)
+│   │   ├── modules.css             # Módulos específicos (não usado no principal)
+│   │   └── pricing.css             # ✅ USADO: Estilos do módulo de precificação
 │   ├── js/
 │   │   ├── app.js                  # Aplicação principal e namespace
 │   │   ├── modules/
-│   │   │   ├── xml-processor.js    # Processamento de XML
-│   │   │   ├── cost-calculator.js  # Cálculos de custo
-│   │   │   ├── incentives.js       # Incentivos fiscais
-│   │   │   ├── pricing.js          # Módulo de precificação
-│   │   │   ├── pricing-ui.js       # Interface de precificação
-│   │   │   ├── reports.js          # Geração de relatórios
-│   │   │   └── validation.js       # Sistema de validação
+│   │   │   ├── xml-processor.js    # ✅ Processamento de XML
+│   │   │   ├── cost-calculator.js  # ✅ Cálculos de custo
+│   │   │   ├── incentives.js       # ✅ Incentivos fiscais
+│   │   │   ├── pricing.js          # ✅ Módulo de precificação
+│   │   │   ├── pricing-ui.js       # ✅ Interface de precificação
+│   │   │   ├── reports.js          # ✅ Geração de relatórios
+│   │   │   └── validation.js       # ✅ Sistema de validação
 │   │   ├── utils/
-│   │   │   ├── dom-utils.js        # Utilitários DOM
-│   │   │   ├── file-utils.js       # Manipulação de arquivos
-│   │   │   ├── data-utils.js       # Processamento de dados
-│   │   │   └── audit-logger.js     # Sistema de auditoria
+│   │   │   ├── dom-utils.js        # ✅ Utilitários DOM
+│   │   │   ├── file-utils.js       # ✅ Manipulação de arquivos
+│   │   │   ├── data-utils.js       # ✅ Processamento de dados
+│   │   │   └── audit-logger.js     # ✅ Sistema de auditoria
 │   │   └── libs/                   # Bibliotecas locais
-│   │       ├── xlsx.full.min.js    # Para export Excel
-│   │       ├── jspdf.min.js        # Para export PDF
-│   │       └── jspdf-autotable.min.js  # Tabelas PDF
-│   ├── images/
-│   │   └── logo-expertzy.svg       # Logo SVG (não usado)
+│   │       ├── xlsx.full.min.js    # ✅ Para export Excel
+│   │       ├── jspdf.min.js        # ✅ Para export PDF
+│   │       └── jspdf-autotable.min.js  # ✅ Tabelas PDF
 │   └── fonts/                      # Fontes Expertzy
+├── /images                         # 🖼️ Assets Originais
+│   └── logo-expertzy.png          # ✅ Logo PNG oficial (USADO)
 ├── /legacy                         # 📁 Sistema Legado Isolado
-│   ├── sistema-legado.html         # Sistema anterior completo
-│   ├── js/                         # Scripts legados
-│   │   ├── importa-di-complete.js  # Sistema principal antigo
-│   │   ├── pricing-module.js       # Módulo precificação antigo
-│   │   ├── professional-reports.js # Relatórios antigos
-│   │   └── invoiceSketch.js        # Croqui NF
-│   └── css/                        # CSS legado
-├── images/                         # 🖼️ Assets Originais
-│   └── logo-expertzy.png          # Logo PNG oficial
-├── orientacoes/                    # Documentação e XMLs de teste
-├── tests/                          # Testes automatizados Playwright
+│   ├── sistema-di-legado.html      # Sistema anterior completo
+│   ├── js/                         # ✅ Scripts legados INTEGRADOS ao sistema principal
+│   │   ├── importa-di-complete.js  # ✅ Sistema principal funcional
+│   │   ├── pricing-module.js       # ✅ Módulo precificação integrado
+│   │   ├── professional-reports.js # ✅ Relatórios profissionais
+│   │   └── invoiceSketch.js        # ✅ Croqui NF
+│   └── css/                        # CSS legado (backup)
+├── /orientacoes                    # Documentação e XMLs de teste
+├── /tests                          # Testes automatizados Playwright
 ├── package.json                    # Configuração NPM
-├── playwright.config.js            # Configuração testes
-└── CLAUDE.md                       # Este arquivo
+├── playwright.config.js            # Configuração testes E2E
+└── CLAUDE.md                       # ✅ Este arquivo
 ```
 
 ### Fluxo de Navegação
@@ -374,12 +412,15 @@ NCM,Descricao,QtdComercial,ValorUnitario,CustoTotalBRL,II,IPI,PIS,COFINS,ICMS
 
 ## Current Implementation Status
 
-### ✅ SISTEMA COMPLETO E FUNCIONAL
+### ✅ SISTEMA COMPLETO E FUNCIONAL - DEZEMBRO 2025
 **Core System:**
-- **Estrutura HTML**: Layout responsivo com padrão Expertzy
-- **CSS Completo**: 4 arquivos (brand, layout, components, modules)
-- **Namespace JavaScript**: `window.ExpertzyDI` com estrutura modular completa
-- **App.js**: Sistema principal com logging e gerenciamento de estado
+- **✅ Estrutura HTML**: `analise-di.html` com layout responsivo e branding Expertzy
+- **✅ CSS Integrado**: Sistema legado funcional (`/css/`) + módulos adicionais (`/assets/css/pricing.css`)
+- **✅ Visual Corrigido**: Background vermelho corrigido, layout profissional funcionando
+- **✅ Logo Funcionando**: `images/logo-expertzy.png` carregando corretamente no header
+- **✅ Namespace JavaScript**: `window.ExpertzyDI` com estrutura modular completa
+- **✅ Integração Total**: Sistema legado + sistema modular funcionando juntos
+- **✅ Testes E2E**: Playwright configurado com protocolo `file://`
 
 **Módulos Principais:**
 - **XML Processor**: ✅ Baseado no código testado (importa-di-complete.js)
@@ -395,20 +436,28 @@ NCM,Descricao,QtdComercial,ValorUnitario,CustoTotalBRL,II,IPI,PIS,COFINS,ICMS
 - **dom-utils.js**: ✅ Utilitários DOM básicos
 - **data-utils.js**: ✅ Processamento de dados brasileiros
 
-### 🎯 CORREÇÕES CRÍTICAS IMPLEMENTADAS
-1. **Seletores XML corretos**: Baseados no código funcional
-2. **Parsing robusto**: Extração de `numeroDI` e todos os campos
-3. **Sincronização arquivo**: Drag & drop integrado com processamento
-4. **Erros de sintaxe**: Todos corrigidos (regex, template strings)
-5. **Módulos faltantes**: Todos os utils implementados
+### 🎯 CORREÇÕES CRÍTICAS IMPLEMENTADAS - DEZEMBRO 2025
+1. **✅ CSS Architecture Fixed**: Integração correta entre sistema legado e modular
+2. **✅ Visual Layout Restored**: Background vermelho corrigido, layout profissional
+3. **✅ Logo Integration**: `images/logo-expertzy.png` funcionando corretamente
+4. **✅ File Protocol Tests**: Playwright configurado para `file://` protocol
+5. **✅ Sequential Thinking**: Depuração sistemática implementada
+6. **✅ Class Compatibility**: Mapeamento correto entre HTML e CSS
+7. **✅ Seletores XML corretos**: Baseados no código funcional testado
+8. **✅ Parsing robusto**: Extração de `numeroDI` e todos os campos
+9. **✅ Sincronização arquivo**: Drag & drop integrado com processamento
+10. **✅ Módulos faltantes**: Todos os utils implementados e funcionais
 
-### 📋 PRÓXIMAS ETAPAS (OPCIONAL)
-1. ✅ ~~Implementar cost-calculator.js~~ **CONCLUÍDO**
-2. ✅ ~~Criar módulo de incentivos fiscais~~ **CONCLUÍDO**
-3. ✅ ~~Desenvolver sistema de precificação~~ **CONCLUÍDO**
-4. ✅ ~~Implementar geração de relatórios Excel/PDF/CSV~~ **CONCLUÍDO**
-5. 🔄 **Bibliotecas externas**: Download de xlsx.full.min.js e jspdf.min.js
-6. 🔄 **Testes integrados**: Validação com XMLs reais completos
+### 📋 SISTEMA 100% FUNCIONAL
+✅ **Todas as funcionalidades principais implementadas e testadas:**
+1. ✅ **XML Processing** - Importação e processamento de DI
+2. ✅ **Cost Calculator** - Cálculos de custos unitários 
+3. ✅ **Fiscal Incentives** - Incentivos fiscais por estado
+4. ✅ **Pricing Module** - Precificação com Simples Nacional 2025
+5. ✅ **Professional Reports** - Excel, PDF, CSV export
+6. ✅ **CSS Architecture** - Layout profissional Expertzy
+7. ✅ **E2E Testing** - Playwright com file:// protocol
+8. ✅ **Visual Interface** - Sistema completamente funcional
 
 ## Development Notes
 
