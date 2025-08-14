@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start index.html)",
+      "Bash(node:*)",
+      "Bash(xcopy:*)",
+      "Bash(dir:*)",
+      "Bash(cp:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npm search:*)",
+      "Bash(mkdir:*)",
+      "Bash(git config:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": []
+  }
+}

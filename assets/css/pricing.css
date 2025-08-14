@@ -1,0 +1,528 @@
+/*
+PRICING.CSS - Estilos para o Módulo de Precificação
+Expertzy Inteligência Tributária
+*/
+
+/* Seção de Precificação */
+.pricing-section {
+    margin-top: 2rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Painel de Configuração */
+.pricing-config-panel {
+    background-color: var(--expertzy-gray-light);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    transition: all var(--transition-base);
+}
+
+.pricing-config-panel.collapsed {
+    max-height: 60px;
+    overflow: hidden;
+}
+
+.section-title {
+    color: var(--expertzy-blue);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Grid de Configuração */
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.config-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.config-group.span-2 {
+    grid-column: span 2;
+}
+
+.config-label {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--expertzy-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Configurações do Simples */
+.simples-config {
+    background-color: var(--expertzy-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    border: 2px dashed var(--expertzy-red);
+}
+
+/* Range Slider Customizado */
+.range-slider {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, 
+        var(--expertzy-red) 0%, 
+        var(--expertzy-red) var(--value, 30%), 
+        #E9ECEF var(--value, 30%), 
+        #E9ECEF 100%);
+    border-radius: var(--border-radius-full);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--expertzy-red);
+    border: 3px solid var(--expertzy-light);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: var(--shadow-lg);
+}
+
+.range-value {
+    display: inline-block;
+    min-width: 50px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--expertzy-blue);
+    color: var(--expertzy-light);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    font-weight: bold;
+    margin-left: var(--spacing-sm);
+}
+
+/* Radio e Checkbox Groups */
+.radio-group,
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.radio-option,
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+}
+
+.radio-option:hover,
+.checkbox-option:hover {
+    background-color: rgba(255, 0, 45, 0.05);
+}
+
+.radio-option input[type="radio"],
+.checkbox-option input[type="checkbox"] {
+    accent-color: var(--expertzy-red);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Ações de Configuração */
+.config-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid #E9ECEF;
+}
+
+/* Grid de Resultados */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Cards de Resultado */
+.result-card {
+    background: linear-gradient(135deg, var(--expertzy-light) 0%, #F8F9FA 100%);
+    border: 1px solid #E9ECEF;
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--expertzy-red), #FF4D6B);
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
+}
+
+.result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.result-card:hover::before {
+    transform: scaleX(1);
+}
+
+.result-card.highlight {
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFE0E5 100%);
+    border-color: var(--expertzy-red);
+    border-width: 2px;
+}
+
+.result-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    animation: bounce 2s infinite;
+}
+
+.result-label {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-sm);
+    color: var(--expertzy-gray-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.result-value {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: bold;
+    color: var(--expertzy-blue);
+    margin-bottom: var(--spacing-xs);
+}
+
+.result-detail {
+    font-size: var(--font-size-xs);
+    color: var(--expertzy-gray-medium);
+}
+
+/* Detalhamento de Impostos */
+.impostos-detail {
+    background-color: var(--expertzy-gray-light);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+}
+
+.detail-title {
+    color: var(--expertzy-blue);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.detail-section h5 {
+    color: var(--expertzy-red);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--expertzy-red);
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-table td {
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid #E9ECEF;
+}
+
+.detail-table td:first-child {
+    font-weight: 500;
+    color: var(--expertzy-gray-dark);
+}
+
+.detail-table td:last-child {
+    text-align: right;
+    font-family: var(--font-monospace);
+    color: var(--expertzy-blue);
+}
+
+.detail-table .total-row {
+    font-weight: bold;
+    background-color: rgba(255, 0, 45, 0.05);
+}
+
+.detail-table .total-row td {
+    padding: var(--spacing-md) var(--spacing-sm);
+    border-top: 2px solid var(--expertzy-red);
+    border-bottom: none;
+}
+
+/* Comparação de Regimes */
+.regime-comparison {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 2px solid #E9ECEF;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.comparison-card {
+    background-color: var(--expertzy-light);
+    border: 2px solid #E9ECEF;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    position: relative;
+    transition: all var(--transition-base);
+}
+
+.comparison-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-card.recommended {
+    border-color: var(--expertzy-red);
+    background: linear-gradient(135deg, #FFF5F5 0%, var(--expertzy-light) 100%);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    background-color: var(--expertzy-red);
+    color: var(--expertzy-light);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.regime-name {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-lg);
+    color: var(--expertzy-blue);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.comparison-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px dashed #E9ECEF;
+}
+
+.metric:last-child {
+    border-bottom: none;
+}
+
+.metric-label {
+    font-size: var(--font-size-sm);
+    color: var(--expertzy-gray-medium);
+}
+
+.metric-value {
+    font-weight: bold;
+    font-family: var(--font-monospace);
+}
+
+/* Simulador de Cenários */
+.scenario-simulator {
+    background-color: var(--expertzy-gray-light);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.simulator-config {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    padding: var(--spacing-lg);
+    background-color: var(--expertzy-light);
+    border-radius: var(--border-radius-md);
+}
+
+.simulator-config label {
+    font-weight: 500;
+    color: var(--expertzy-blue);
+}
+
+.simulator-config input[type="number"] {
+    width: 80px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 2px solid #E9ECEF;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Tabela de Simulação */
+.simulation-table {
+    width: 100%;
+    background-color: var(--expertzy-light);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-base);
+}
+
+.simulation-table thead {
+    background: linear-gradient(135deg, var(--expertzy-blue) 0%, #1A2F4A 100%);
+    color: var(--expertzy-light);
+}
+
+.simulation-table th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.5px;
+}
+
+.simulation-table tbody tr {
+    border-bottom: 1px solid #E9ECEF;
+    transition: background-color var(--transition-fast);
+}
+
+.simulation-table tbody tr:hover {
+    background-color: rgba(255, 0, 45, 0.03);
+}
+
+.simulation-table tbody tr:nth-child(even) {
+    background-color: var(--expertzy-gray-light);
+}
+
+.simulation-table td {
+    padding: var(--spacing-md);
+    font-family: var(--font-monospace);
+}
+
+/* Ações de Exportação */
+.export-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    padding: var(--spacing-lg);
+    background-color: var(--expertzy-gray-light);
+    border-radius: var(--border-radius-lg);
+}
+
+/* Classes de Status de Texto */
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
+
+.text-danger {
+    color: var(--color-danger) !important;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .config-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .config-group.span-2 {
+        grid-column: span 1;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .simulator-config {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .export-actions {
+        flex-direction: column;
+    }
+}
+
+/* Utilitários */
+.mt-3 { margin-top: var(--spacing-md) !important; }
+.mt-4 { margin-top: var(--spacing-lg) !important; }
+.collapsed { max-height: 0; overflow: hidden; }

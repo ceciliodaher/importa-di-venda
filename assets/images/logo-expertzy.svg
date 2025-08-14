@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+  <!-- Logo Expertzy SVG -->
+  <defs>
+    <linearGradient id="expertzyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF002D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CC0024;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Símbolo/Ícone -->
+  <g id="symbol">
+    <!-- Hexágono estilizado -->
+    <path d="M 30 15 L 50 15 L 60 30 L 50 45 L 30 45 L 20 30 Z" 
+          fill="url(#expertzyGradient)" 
+          stroke="#091A30" 
+          stroke-width="2"/>
+    
+    <!-- Letra E estilizada dentro -->
+    <text x="40" y="36" 
+          font-family="Arial, sans-serif" 
+          font-size="20" 
+          font-weight="bold" 
+          fill="#FFFFFF" 
+          text-anchor="middle">E</text>
+  </g>
+  
+  <!-- Texto da marca -->
+  <g id="brandText">
+    <!-- EXPERTZY -->
+    <text x="75" y="40" 
+          font-family="'Segoe UI', Arial, sans-serif" 
+          font-size="32" 
+          font-weight="300" 
+          fill="#091A30">
+      <tspan font-weight="bold" fill="#FF002D">EXPERT</tspan><tspan fill="#091A30">ZY</tspan>
+    </text>
+    
+    <!-- Tagline -->
+    <text x="75" y="58" 
+          font-family="'Segoe UI', Arial, sans-serif" 
+          font-size="12" 
+          fill="#6C757D"
+          letter-spacing="2">
+      INTELIGÊNCIA TRIBUTÁRIA
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Copiar Sistema</title>
+</head>
+<body>
+    <h1>Copiando arquivos...</h1>
+    <script>
+        // Script para copiar arquivos do sistema modelo
+        async function copyFiles() {
+            const basePath = '../importa-di/web-system/';
+            const files = [
+                'js/importa-di-complete.js',
+                'js/invoiceSketch.js', 
+                'css/reset.css',
+                'css/expertzy-brand.css',
+                'css/components.css',
+                'css/main.css',
+                'css/invoice-sketch.css'
+            ];
+            
+            console.log('Iniciando cópia...');
+            for (let file of files) {
+                try {
+                    const response = await fetch(basePath + file);
+                    const content = await response.text();
+                    console.log(`Copiado: ${file} (${content.length} chars)`);
+                } catch (err) {
+                    console.error(`Erro ao copiar ${file}:`, err);
+                }
+            }
+        }
+        
+        copyFiles();
+    </script>
+</body>
+</html>
