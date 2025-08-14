@@ -4,16 +4,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Sistema web modular para análise de Declarações de Importação (DI) baseado no código Python existente. O sistema deve seguir o padrão de marca da Expertzy e funcionar com protocolo file://.
+Sistema web modular para análise de Declarações de Importação (DI) com arquitetura limpa separando landing page institucional, sistema principal e código legado. O sistema segue o padrão de marca da Expertzy e funciona com protocolo file://.
 
 ## Development Commands
 
-Este é um sistema web puro (HTML/CSS/JS) que funciona via file://
+### Sistema Principal
 ```bash
-# Abrir no navegador
+# Landing Page Institucional
 open index.html
-# Para desenvolvimento com live server (opcional)
-python -m http.server 8000
+
+# Sistema de Análise DI
+open analise-di.html
+
+# Sistema Legado (para comparação)
+open legacy/sistema-legado.html
+
+# Servidor local para desenvolvimento (opcional)
+npm run serve      # python -m http.server 8080
+npm run dev        # Abre sistema automaticamente
+```
+
+### Testes Automatizados
+```bash
+npm test           # Executar todos os testes
+npm run test:ui    # Interface visual dos testes
+npm run test:chrome  # Testar apenas no Chrome
+npm run test:mobile  # Testar em dispositivos móveis
 ```
 
 ## Technical Constraints
@@ -56,16 +72,18 @@ python -m http.server 8000
 
 Sistema modular com namespace global para compatibilidade file://
 
-### Estrutura de Arquivos
+### Estrutura de Arquivos Atualizada
 ```
-/
-├── index.html                      # Página principal
-├── assets/
+/importa-di-venda
+├── index.html                      # 🏠 Landing Page Institucional Expertzy
+├── analise-di.html                 # 🎯 Sistema Principal de Análise DI
+├── /assets                         # Sistema Modular Novo
 │   ├── css/
 │   │   ├── expertzy-brand.css      # Cores e tipografia da marca
 │   │   ├── layout.css              # Layout geral e responsividade
 │   │   ├── components.css          # Componentes reutilizáveis
-│   │   └── modules.css             # Estilos específicos dos módulos
+│   │   ├── modules.css             # Estilos específicos dos módulos
+│   │   └── pricing.css             # Estilos do módulo de precificação
 │   ├── js/
 │   │   ├── app.js                  # Aplicação principal e namespace
 │   │   ├── modules/
@@ -73,6 +91,7 @@ Sistema modular com namespace global para compatibilidade file://
 │   │   │   ├── cost-calculator.js  # Cálculos de custo
 │   │   │   ├── incentives.js       # Incentivos fiscais
 │   │   │   ├── pricing.js          # Módulo de precificação
+│   │   │   ├── pricing-ui.js       # Interface de precificação
 │   │   │   ├── reports.js          # Geração de relatórios
 │   │   │   └── validation.js       # Sistema de validação
 │   │   ├── utils/
@@ -80,11 +99,58 @@ Sistema modular com namespace global para compatibilidade file://
 │   │   │   ├── file-utils.js       # Manipulação de arquivos
 │   │   │   ├── data-utils.js       # Processamento de dados
 │   │   │   └── audit-logger.js     # Sistema de auditoria
-│   │   └── libs/                   # Bibliotecas externas
+│   │   └── libs/                   # Bibliotecas locais
 │   │       ├── xlsx.full.min.js    # Para export Excel
-│   │       └── jspdf.min.js        # Para export PDF
+│   │       ├── jspdf.min.js        # Para export PDF
+│   │       └── jspdf-autotable.min.js  # Tabelas PDF
+│   ├── images/
+│   │   └── logo-expertzy.svg       # Logo SVG (não usado)
 │   └── fonts/                      # Fontes Expertzy
-└── CLAUDE.md
+├── /legacy                         # 📁 Sistema Legado Isolado
+│   ├── sistema-legado.html         # Sistema anterior completo
+│   ├── js/                         # Scripts legados
+│   │   ├── importa-di-complete.js  # Sistema principal antigo
+│   │   ├── pricing-module.js       # Módulo precificação antigo
+│   │   ├── professional-reports.js # Relatórios antigos
+│   │   └── invoiceSketch.js        # Croqui NF
+│   └── css/                        # CSS legado
+├── images/                         # 🖼️ Assets Originais
+│   └── logo-expertzy.png          # Logo PNG oficial
+├── orientacoes/                    # Documentação e XMLs de teste
+├── tests/                          # Testes automatizados Playwright
+├── package.json                    # Configuração NPM
+├── playwright.config.js            # Configuração testes
+└── CLAUDE.md                       # Este arquivo
+```
+
+### Fluxo de Navegação
+
+#### 🏠 Landing Page (index.html)
+- **Propósito**: Página institucional da Expertzy
+- **Conteúdo**: Apresentação dos produtos e soluções
+- **Navegação**:
+  - `🚀 Acessar Sistema` → `analise-di.html`
+  - `📁 Versão Anterior` → `legacy/sistema-legado.html`
+
+#### 🎯 Sistema Principal (analise-di.html)
+- **Propósito**: Sistema moderno de análise DI
+- **Funcionalidades**:
+  - Upload e processamento de XML
+  - **Módulo de precificação integrado** (aparece automaticamente após processamento)
+  - Cálculos avançados com sistema modular
+  - Interface profissional com marca Expertzy
+- **Integração**: Sistema legado + módulos novos
+
+#### 📁 Sistema Legado (legacy/sistema-legado.html)
+- **Propósito**: Versão anterior preservada
+- **Uso**: Comparação e backup de funcionalidades
+- **Status**: Mantido para referência, sem atualizações
+
+### URLs de Acesso
+```
+Landing Page:     file:///.../index.html
+Sistema DI:       file:///.../analise-di.html
+Sistema Legado:   file:///.../legacy/sistema-legado.html
 ```
 
 ### Namespace Structure

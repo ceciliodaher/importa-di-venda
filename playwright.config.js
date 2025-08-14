@@ -15,8 +15,8 @@ module.exports = defineConfig({
   reporter: 'html',
   
   use: {
-    // Base URL para testes locais
-    baseURL: 'file://' + __dirname + '/index.html',
+    // Base URL para testes locais - usando sistema de análise DI
+    baseURL: 'file://' + __dirname + '/analise-di.html',
     
     // Configurações de trace e screenshot
     trace: 'on-first-retry',

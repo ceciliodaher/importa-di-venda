@@ -11,7 +11,9 @@
       "Bash(npm search:*)",
       "Bash(mkdir:*)",
       "Bash(git config:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(npx playwright test:*)"
     ],
     "deny": []
   }

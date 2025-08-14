@@ -4,398 +4,358 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Expertzy Inteligência Tributária">
-    <meta name="description" content="Sistema de cálculo de custos de importação - Processamento de DI (Declaração de Importação)">
-    <title>Importação DI - Expertzy Inteligência Tributária</title>
+    <meta name="description" content="Expertzy - Soluções avançadas em inteligência tributária para importação e comércio exterior">
+    <title>Expertzy - Inteligência Tributária</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/expertzy-brand.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/invoice-sketch.css">
     <link rel="stylesheet" href="assets/css/expertzy-brand.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/modules.css">
-    <link rel="stylesheet" href="assets/css/pricing.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    
-    <!-- Preload fonts for performance -->
-    <link rel="preload" href="assets/fonts/gadeg-thin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/fonts/brfirma-medium.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        /* Landing Page Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #091A30 0%, #1a3454 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .landing-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-section img {
+            height: 60px;
+            width: auto;
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 0, 45, 0.1);
+            border: 1px solid rgba(255, 0, 45, 0.3);
+        }
+        
+        .nav-link:hover {
+            background: var(--expertzy-red);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 0, 45, 0.3);
+        }
+        
+        .hero-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero-title {
+            font-family: var(--font-primary);
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .produto-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 0, 45, 0.1);
+        }
+        
+        .produto-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+        }
+        
+        .produto-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .produto-title {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            color: var(--expertzy-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .produto-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-primary {
+            background: var(--expertzy-red);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 0, 45, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #CC0024;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 45, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--expertzy-red);
+            padding: 1rem 2rem;
+            border: 2px solid var(--expertzy-red);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--expertzy-red);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .features-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+        }
+        
+        .features-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .features-title {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-item {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-section {
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .navigation {
+                gap: 1rem;
+            }
+            
+            .nav-link {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .produtos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-content">
-                <div>
-                    <h1 class="app-title">
-                        <span class="title-icon">📊</span>
-                        <div>
-                            Importação DI
-                            <div class="app-subtitle">Sistema de Cálculo de Custos</div>
-                        </div>
-                    </h1>
-                </div>
-                <div class="header-actions">
-                    <div class="expertzy-logo">
-                        <img src="assets/images/logo-expertzy.svg" alt="Expertzy Inteligência Tributária" height="50">
-                    </div>
-                </div>
+    <!-- Header -->
+    <header class="landing-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="images/logo-expertzy.png" alt="Expertzy Inteligência Tributária">
             </div>
-        </header>
+            <nav class="navigation">
+                <a href="analise-di.html" class="nav-link">
+                    📊 Sistema de Análise DI
+                </a>
+                <a href="legacy/sistema-legado.html" class="nav-link">
+                    📁 Versão Anterior
+                </a>
+            </nav>
+        </div>
+    </header>
 
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- Upload Section -->
-            <section class="upload-section">
-                <div class="expertzy-card">
-                    <div class="expertzy-card-header">
-                        <h2 class="expertzy-card-title">📁 Importar Arquivo XML da DI</h2>
-                    </div>
-                    
-                    <div class="drag-drop-zone" id="dragDropZone">
-                        <span class="drag-drop-icon">📄</span>
-                        <div class="drag-drop-text">Arraste seu arquivo XML aqui</div>
-                        <div class="drag-drop-hint">ou clique para selecionar</div>
-                        <input type="file" id="fileInput" class="file-input-hidden" accept=".xml" />
-                    </div>
-                    
-                    <div id="fileInfo" class="expertzy-hidden">
-                        <div class="status-indicator success">
-                            <span class="status-icon">✓</span>
-                            <span id="fileName">Arquivo selecionado</span>
-                        </div>
-                        <div class="progress-container expertzy-hidden" id="progressContainer">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-text" id="progressText">Processando...</div>
-                        </div>
-                    </div>
+    <!-- Hero Section -->
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Inteligência Tributária <span style="color: var(--expertzy-red);">Avançada</span>
+            </h1>
+            <p class="hero-subtitle">
+                Soluções tecnológicas para otimização tributária em comércio exterior. 
+                Processamento inteligente de DI, cálculos precisos de custos e 
+                análise comparativa de regimes tributários.
+            </p>
+            
+            <!-- Produtos Grid -->
+            <div class="produtos-grid">
+                <div class="produto-card">
+                    <span class="produto-icon">📊</span>
+                    <h3 class="produto-title">Sistema de Análise DI</h3>
+                    <p class="produto-description">
+                        Processamento avançado de Declarações de Importação com:
+                        <br>• Cálculo automático de custos e impostos
+                        <br>• Análise de incentivos fiscais por estado
+                        <br>• Módulo de precificação inteligente
+                        <br>• Relatórios profissionais em Excel/PDF
+                    </p>
+                    <a href="analise-di.html" class="btn-primary">
+                        🚀 Acessar Sistema
+                    </a>
                 </div>
-            </section>
-
-            <!-- Configuration Section -->
-            <section class="config-section expertzy-hidden" id="configSection">
-                <div class="config-panel">
-                    <h3 class="config-title">
-                        ⚙️ Configuração de Custos (INCOTERM)
-                    </h3>
-                    
-                    <div id="incotermDetected" class="expertzy-hidden">
-                        <div class="incoterm-indicator detected">
-                            <span>🎯</span>
-                            <span id="detectedIncotermText">INCOTERM detectado: FOB</span>
-                        </div>
-                        <br>
-                    </div>
-                    
-                    <div class="config-options">
-                        <label class="config-option">
-                            <input type="checkbox" id="freteEmbutido" class="expertzy-checkbox">
-                            <span>
-                                Frete embutido no VCMV
-                                <small class="config-hint">Marque se INCOTERM for CFR ou CIF</small>
-                            </span>
-                        </label>
-                        
-                        <label class="config-option">
-                            <input type="checkbox" id="seguroEmbutido" class="expertzy-checkbox">
-                            <span>
-                                Seguro embutido no VCMV
-                                <small class="config-hint">Marque se INCOTERM for CIF</small>
-                            </span>
-                        </label>
-                    </div>
-
-                    <!-- Configuração ICMS e CFOP -->
-                    <div class="config-section-divider">
-                        <h4 class="config-subsection-title">
-                            💰 Configuração de ICMS e CFOP
-                        </h4>
-                    </div>
-                    
-                    <div class="config-options">
-                        <div class="config-option">
-                            <label for="estadoDestino">Estado de destino (UF):</label>
-                            <select id="estadoDestino" class="expertzy-select">
-                                <option value="">Selecionar estado...</option>
-                                <option value="AC">Acre (AC)</option>
-                                <option value="AL">Alagoas (AL)</option>
-                                <option value="AP">Amapá (AP)</option>
-                                <option value="AM">Amazonas (AM)</option>
-                                <option value="BA">Bahia (BA)</option>
-                                <option value="CE">Ceará (CE)</option>
-                                <option value="DF">Distrito Federal (DF)</option>
-                                <option value="ES">Espírito Santo (ES)</option>
-                                <option value="GO" selected>Goiás (GO)</option>
-                                <option value="MA">Maranhão (MA)</option>
-                                <option value="MT">Mato Grosso (MT)</option>
-                                <option value="MS">Mato Grosso do Sul (MS)</option>
-                                <option value="MG">Minas Gerais (MG)</option>
-                                <option value="PA">Pará (PA)</option>
-                                <option value="PB">Paraíba (PB)</option>
-                                <option value="PR">Paraná (PR)</option>
-                                <option value="PE">Pernambuco (PE)</option>
-                                <option value="PI">Piauí (PI)</option>
-                                <option value="RJ">Rio de Janeiro (RJ)</option>
-                                <option value="RN">Rio Grande do Norte (RN)</option>
-                                <option value="RS">Rio Grande do Sul (RS)</option>
-                                <option value="RO">Rondônia (RO)</option>
-                                <option value="RR">Roraima (RR)</option>
-                                <option value="SC">Santa Catarina (SC)</option>
-                                <option value="SP">São Paulo (SP)</option>
-                                <option value="SE">Sergipe (SE)</option>
-                                <option value="TO">Tocantins (TO)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="config-option">
-                            <label for="aliquotaICMSPadrao">Alíquota ICMS padrão (%):</label>
-                            <input type="number" id="aliquotaICMSPadrao" class="expertzy-input" 
-                                   value="19" min="0" max="100" step="0.01" 
-                                   placeholder="19.00">
-                            <small class="config-hint">Será aplicada a todas as adições inicialmente</small>
-                        </div>
-
-                        <div class="config-option">
-                            <label for="cfopPadrao">CFOP padrão:</label>
-                            <select id="cfopPadrao" class="expertzy-select">
-                                <option value="">Selecionar CFOP...</option>
-                                <option value="3101">3101 - Compra para industrialização</option>
-                                <option value="3102" selected>3102 - Compra para comercialização</option>
-                                <option value="3126">3126 - Compra para utilização na prestação de serviço</option>
-                                <option value="3127">3127 - Compra para ativo imobilizado</option>
-                                <option value="3128">3128 - Compra para consumo</option>
-                                <option value="3129">3129 - Compra para material de uso ou consumo</option>
-                                <option value="3132">3132 - Aquisição de serviço de transporte</option>
-                                <option value="3251">3251 - Compra de energia elétrica para distribuição ou comercialização</option>
-                                <option value="3301">3301 - Aquisição de serviço de comunicação</option>
-                            </select>
-                            <small class="config-hint">Será aplicado a todas as adições inicialmente</small>
-                        </div>
-                    </div>
-                    
-                    <div class="expertzy-flex expertzy-justify-center">
-                        <button class="expertzy-btn expertzy-btn-primary" id="processBtn" disabled>
-                            <span>💾</span>
-                            Processar e Calcular Custos
-                        </button>
-                    </div>
+                
+                <div class="produto-card">
+                    <span class="produto-icon">🔬</span>
+                    <h3 class="produto-title">Versão de Desenvolvimento</h3>
+                    <p class="produto-description">
+                        Sistema anterior mantido para:
+                        <br>• Comparação de funcionalidades
+                        <br>• Validação de cálculos
+                        <br>• Análise de evolução
+                        <br>• Backup de processos críticos
+                    </p>
+                    <a href="legacy/sistema-legado.html" class="btn-secondary">
+                        📁 Versão Anterior
+                    </a>
                 </div>
-            </section>
-
-            <!-- Results Section -->
-            <section class="results-section expertzy-hidden" id="resultsSection">
-                <!-- Summary Cards -->
-                <div class="results-summary" id="resultsSummary">
-                    <div class="summary-card">
-                        <div class="summary-label">Total de Adições</div>
-                        <div class="summary-value" id="totalAdicoes">0</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">Total de Itens</div>
-                        <div class="summary-value" id="totalItens">0</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">Valor FOB</div>
-                        <div class="summary-value" id="valorFOB">R$ 0,00</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="summary-label">Custo Total</div>
-                        <div class="summary-value" id="custoTotal">R$ 0,00</div>
-                    </div>
-                </div>
-
-                <!-- Validation Results -->
-                <div class="validation-section" id="validationSection">
-                    <div class="validation-header">
-                        <h3 class="validation-title">
-                            🔍 Validação dos Cálculos
-                        </h3>
-                    </div>
-                    <div class="validation-results" id="validationResults">
-                        <!-- Validation items will be populated by JavaScript -->
-                    </div>
-                </div>
-
-                <!-- Results Table -->
-                <div class="results-container" id="resultsContainer">
-                    <div class="results-header">
-                        <h3 class="results-title">📋 Resultados Detalhados</h3>
-                        <div class="results-actions">
-                            <button class="expertzy-btn expertzy-btn-outline" id="expandAllBtn">
-                                Expandir Todas
-                            </button>
-                            <button class="expertzy-btn expertzy-btn-outline" id="collapseAllBtn">
-                                Contrair Todas
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-responsive">
-                            <table class="expertzy-table" id="resultsTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Adição</th>
-                                        <th>NCM</th>
-                                        <th>Descrição</th>
-                                        <th>INCOTERM</th>
-                                        <th>CFOP</th>
-                                        <th>ICMS %</th>
-                                        <th>VCMV R$</th>
-                                        <th>Custo Total R$</th>
-                                        <th>II R$</th>
-                                        <th>% Participação</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="resultsTableBody">
-                                    <!-- Table rows will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Export Section -->
-            <section class="export-section expertzy-hidden" id="exportSection">
-                <div class="export-actions">
-                    <button class="export-btn" id="exportExcelBtn" disabled>
-                        <span class="export-icon">📊</span>
-                        <span class="export-label">Excel Completo</span>
-                        <span class="export-description">Relatório multi-aba com todos os detalhes</span>
-                    </button>
-                    
-                    <button class="export-btn" id="exportCSVBtn" disabled>
-                        <span class="export-icon">📄</span>
-                        <span class="export-label">CSV Resumo</span>
-                        <span class="export-description">Dados para importação em ERP</span>
-                    </button>
-                    
-                    <button class="export-btn" id="exportPDFBtn" disabled>
-                        <span class="export-icon">📋</span>
-                        <span class="export-label">Relatório PDF</span>
-                        <span class="export-description">Resumo executivo formatado</span>
-                    </button>
-                    
-                    <button class="export-btn" id="pricingBtn" disabled>
-                        <span class="export-icon">💰</span>
-                        <span class="export-label">Módulo de Precificação</span>
-                        <span class="export-description">Cálculo de preços de venda com análise tributária</span>
-                    </button>
-                    
-                    <button class="export-btn" id="invoiceSketchBtn" disabled>
-                        <span class="export-icon">📄</span>
-                        <span class="export-label">Croqui da NF</span>
-                        <span class="export-description">Geração de croqui da nota fiscal de entrada</span>
-                    </button>
-                    
-                    <button class="export-btn" id="saveConfigBtn" disabled>
-                        <span class="export-icon">💾</span>
-                        <span class="export-label">Salvar Dados</span>
-                        <span class="export-description">Histórico local para comparações</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Error Container -->
-            <div class="error-container expertzy-hidden" id="errorContainer">
-                <div class="error-title">
-                    <span>⚠️</span>
-                    Erro no Processamento
-                </div>
-                <div class="error-message" id="errorMessage">
-                    Ocorreu um erro durante o processamento do arquivo.
-                </div>
-                <details>
-                    <summary>Detalhes técnicos</summary>
-                    <div class="error-details" id="errorDetails">
-                        <!-- Error details will be populated by JavaScript -->
-                    </div>
-                </details>
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state" id="emptyState">
-                <div class="empty-icon">📁</div>
-                <h3 class="empty-title">Pronto para processar sua DI</h3>
-                <p class="empty-description">
-                    Faça upload do arquivo XML da Declaração de Importação para começar o cálculo 
-                    automático de custos unitários com distribuição proporcional de impostos e despesas.
-                </p>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p>© 2025 Expertzy Inteligência Tributária</p>
-        </footer>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer">
-        <!-- Toast notifications will be inserted here by JavaScript -->
-    </div>
-
-    <!-- Pricing Modal -->
-    <div class="modal-overlay" id="pricingModal" style="display: none;">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3>💰 Módulo de Precificação</h3>
-                <button class="modal-close" id="closePricingModal">&times;</button>
-            </div>
-            <div class="modal-body" id="pricingContent">
-                <!-- Pricing content will be populated by JavaScript -->
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Bibliotecas Externas (locais) -->
-    <script src="assets/js/libs/xlsx.full.min.js"></script>
-    <script src="assets/js/libs/jspdf.min.js"></script>
-    <script src="assets/js/libs/jspdf-autotable.min.js"></script>
-    
-    <!-- Sistema Modular Expertzy DI -->
-    <script src="assets/js/app.js"></script>
-    
-    <!-- Módulos Utilitários -->
-    <script src="assets/js/utils/dom-utils.js"></script>
-    <script src="assets/js/utils/file-utils.js"></script>
-    <script src="assets/js/utils/data-utils.js"></script>
-    <script src="assets/js/utils/audit-logger.js"></script>
-    
-    <!-- Módulos Principais -->
-    <script src="assets/js/modules/xml-processor.js"></script>
-    <script src="assets/js/modules/cost-calculator.js"></script>
-    <script src="assets/js/modules/incentives.js"></script>
-    <script src="assets/js/modules/validation.js"></script>
-    <script src="assets/js/modules/pricing.js"></script>
-    <script src="assets/js/modules/pricing-ui.js"></script>
-    <script src="assets/js/modules/reports.js"></script>
-    
-    <!-- Scripts Legados (compatibilidade) -->
-    <script src="js/importa-di-complete.js"></script>
-    <script src="js/pricing-module.js"></script>
-    <script src="js/professional-reports.js"></script>
-    <script src="js/invoiceSketch.js"></script>
-    
-    <!-- Inicialização do Sistema -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar sistema modular
-            if (window.ExpertzyDI) {
-                ExpertzyDI.init();
-                ExpertzyDI.modules.pricingUI.init();
-                ExpertzyDI.log('SYSTEM', 'Sistema Expertzy DI inicializado com sucesso');
-            }
-        });
-    </script>
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-content">
+            <h2 class="features-title">Recursos Avançados</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🤖</span>
+                    <div class="feature-title">Processamento Inteligente</div>
+                    <div>Análise automática de XML com detecção de INCOTERM</div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💰</span>
+                    <div class="feature-title">Cálculos Precisos</div>
+                    <div>Custos, impostos e incentivos fiscais por estado</div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📈</span>
+                    <div class="feature-title">Análise de Precificação</div>
+                    <div>Comparação de regimes tributários e simulações</div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📋</span>
+                    <div class="feature-title">Relatórios Profissionais</div>
+                    <div>Exportação em Excel, PDF e CSV formatados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <p>&copy; 2025 Expertzy Inteligência Tributária. Desenvolvido com tecnologia avançada.</p>
+    </footer>
 </body>
 </html>
