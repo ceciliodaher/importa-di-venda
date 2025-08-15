@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/components.css">
     <!-- Módulos específicos -->
     <link rel="stylesheet" href="assets/css/pricing.css">
+    <link rel="stylesheet" href="css/despesas-extras.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
@@ -108,6 +109,90 @@
                                 <small class="config-hint">Marque se INCOTERM for CIF</small>
                             </span>
                         </label>
+                    </div>
+
+                    <!-- Configuração de Despesas Extras -->
+                    <div class="config-section-divider">
+                        <h4 class="config-subsection-title">
+                            💵 Despesas Extras de Importação
+                        </h4>
+                        <div class="despesas-extras-container" id="despesasExtrasContainer">
+                            <div class="despesas-toolbar">
+                                <button type="button" class="expertzy-btn expertzy-btn-sm" onclick="ExpertzyDI.modules.despesasExtras.adicionarDespesa()">
+                                    ➕ Adicionar Despesa
+                                </button>
+                                <div class="despesas-templates">
+                                    <span class="template-label">Templates:</span>
+                                    <button type="button" class="template-btn" onclick="ExpertzyDI.modules.despesasExtras.adicionarTemplate('armazenagem')">Armazenagem</button>
+                                    <button type="button" class="template-btn" onclick="ExpertzyDI.modules.despesasExtras.adicionarTemplate('capatazia')">Capatazia</button>
+                                    <button type="button" class="template-btn" onclick="ExpertzyDI.modules.despesasExtras.adicionarTemplate('despachante')">Despachante</button>
+                                    <button type="button" class="template-btn" onclick="ExpertzyDI.modules.despesasExtras.adicionarTemplate('thc')">THC</button>
+                                    <button type="button" class="template-btn" onclick="ExpertzyDI.modules.despesasExtras.adicionarTemplate('frete_interno')">Frete Interno</button>
+                                </div>
+                            </div>
+                            
+                            <div class="despesas-lista" id="despesasLista">
+                                <!-- Despesas serão adicionadas dinamicamente aqui -->
+                            </div>
+                            
+                            <div class="despesas-totais">
+                                <div class="total-item">
+                                    <span>Total Base ICMS:</span>
+                                    <span id="totalBaseICMS">R$ 0,00</span>
+                                </div>
+                                <div class="total-item">
+                                    <span>Total Fora Base:</span>
+                                    <span id="totalForaBase">R$ 0,00</span>
+                                </div>
+                                <div class="total-item total-geral">
+                                    <span>Total Despesas Extras:</span>
+                                    <span id="totalDespesasExtras">R$ 0,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuração de Câmbio -->
+                    <div class="config-section-divider">
+                        <h4 class="config-subsection-title">
+                            💱 Configuração de Câmbio
+                        </h4>
+                        <div class="cambio-container">
+                            <div class="cambio-opcoes">
+                                <label class="config-option">
+                                    <input type="radio" name="tipoCambio" value="di" checked class="expertzy-radio">
+                                    <span>Usar câmbio da DI</span>
+                                </label>
+                                <label class="config-option">
+                                    <input type="radio" name="tipoCambio" value="unico" class="expertzy-radio">
+                                    <span>Câmbio único diferente</span>
+                                </label>
+                                <label class="config-option">
+                                    <input type="radio" name="tipoCambio" value="multiplo" class="expertzy-radio">
+                                    <span>Múltiplos contratos de câmbio</span>
+                                </label>
+                            </div>
+                            
+                            <div class="cambio-config expertzy-hidden" id="cambioUnico">
+                                <label class="config-label">
+                                    Taxa de câmbio (R$/USD):
+                                    <input type="number" id="taxaCambioUnico" step="0.0001" placeholder="5.2500" class="input-field">
+                                </label>
+                            </div>
+                            
+                            <div class="cambio-config expertzy-hidden" id="cambioMultiplo">
+                                <button type="button" class="expertzy-btn expertzy-btn-sm" onclick="ExpertzyDI.modules.cambio.adicionarContrato()">
+                                    ➕ Adicionar Contrato
+                                </button>
+                                <div id="contratosCambio" class="contratos-lista">
+                                    <!-- Contratos serão adicionados dinamicamente -->
+                                </div>
+                                <div class="cambio-medio">
+                                    <span>Taxa Média Ponderada:</span>
+                                    <span id="taxaMediaPonderada">R$ 0,0000</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Configuração ICMS e CFOP -->
@@ -377,12 +462,8 @@
     <script src="assets/js/modules/pricing.js"></script>
     <script src="assets/js/modules/pricing-ui.js"></script>
     <script src="assets/js/modules/reports.js"></script>
-    
-    <!-- Scripts Legados (compatibilidade) -->
-    <script src="legacy/js/importa-di-complete.js"></script>
-    <script src="legacy/js/pricing-module.js"></script>
-    <script src="legacy/js/professional-reports.js"></script>
-    <script src="legacy/js/invoiceSketch.js"></script>
+    <script src="assets/js/modules/despesas-extras.js"></script>
+    <script src="assets/js/modules/cambio.js"></script>
     
     <!-- Inicialização do Sistema -->
     <script>
@@ -390,114 +471,12 @@
             // Inicializar sistema modular
             if (window.ExpertzyDI) {
                 ExpertzyDI.init();
+                ExpertzyDI.modules.despesasExtras.init();
+                ExpertzyDI.modules.cambio.init();
                 ExpertzyDI.modules.pricingUI.init();
                 ExpertzyDI.log('SYSTEM', 'Sistema Expertzy DI inicializado com sucesso');
-                
-                // Integração com sistema legado
-                integrarSistemaPrecificacao();
             }
         });
-        
-        // Função para integrar módulo de precificação com sistema legado
-        function integrarSistemaPrecificacao() {
-            // Observar mudanças na seção de resultados
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    const resultsSection = document.getElementById('resultsSection');
-                    if (resultsSection && !resultsSection.classList.contains('expertzy-hidden')) {
-                        // Resultados foram exibidos - mostrar módulo de precificação
-                        setTimeout(function() {
-                            if (window.ExpertzyDI && window.ExpertzyDI.modules.pricingUI) {
-                                ExpertzyDI.modules.pricingUI.mostrar();
-                                
-                                // Tentar sincronizar dados se disponíveis
-                                sincronizarDadosPrecificacao();
-                            }
-                        }, 1000);
-                    }
-                });
-            });
-            
-            // Observar mudanças no DOM
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['class', 'style']
-            });
-        }
-        
-        // Sincronizar dados do sistema legado com sistema modular
-        function sincronizarDadosPrecificacao() {
-            try {
-                // Tentar extrair dados dos resultados exibidos
-                const custoTotal = extrairCustoTotal();
-                const impostosDI = extrairImpostosDI();
-                
-                if (custoTotal && impostosDI) {
-                    // Criar estrutura de dados para o sistema modular
-                    const dadosImportacao = {
-                        custoUnitario: custoTotal,
-                        impostos: impostosDI,
-                        dataProcessamento: new Date().toISOString()
-                    };
-                    
-                    // Armazenar no namespace modular
-                    if (window.ExpertzyDI) {
-                        window.ExpertzyDI.data.currentDI = dadosImportacao;
-                        ExpertzyDI.log('INTEGRATION', 'Dados sincronizados com módulo de precificação', dadosImportacao);
-                    }
-                }
-            } catch (error) {
-                console.warn('Erro na sincronização de dados:', error);
-            }
-        }
-        
-        // Extrair custo total dos resultados
-        function extrairCustoTotal() {
-            const custoElements = document.querySelectorAll('.result-value');
-            for (let element of custoElements) {
-                const text = element.textContent;
-                if (text.includes('R$') && text.includes('Total')) {
-                    const valor = text.replace(/[R$,\s]/g, '').replace('.', '');
-                    return parseFloat(valor) / 100; // Converter centavos para reais
-                }
-            }
-            return null;
-        }
-        
-        // Extrair impostos da DI dos resultados
-        function extrairImpostosDI() {
-            const impostos = {};
-            
-            // Tentar extrair valores de impostos das tabelas de resultados
-            const tabelas = document.querySelectorAll('table');
-            tabelas.forEach(tabela => {
-                const rows = tabela.querySelectorAll('tr');
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    if (cells.length >= 2) {
-                        const label = cells[0].textContent.trim();
-                        const valor = cells[1].textContent.trim();
-                        
-                        // Mapear para estrutura esperada
-                        if (label.includes('I.I.') || label.includes('Imposto Import')) {
-                            impostos.II = { valor: parseFloat(valor.replace(/[R$,\s]/g, '')) / 100 };
-                        } else if (label.includes('I.P.I')) {
-                            impostos.IPI = { valor: parseFloat(valor.replace(/[R$,\s]/g, '')) / 100 };
-                        } else if (label.includes('PIS')) {
-                            impostos.PIS = { valor: parseFloat(valor.replace(/[R$,\s]/g, '')) / 100 };
-                        } else if (label.includes('COFINS')) {
-                            impostos.COFINS = { valor: parseFloat(valor.replace(/[R$,\s]/g, '')) / 100 };
-                        } else if (label.includes('ICMS')) {
-                            impostos.ICMS = { valor: parseFloat(valor.replace(/[R$,\s]/g, '')) / 100 };
-                        }
-                    }
-                });
-            });
-            
-            return Object.keys(impostos).length > 0 ? impostos : null;
-        }
     </script>
 </body>
 </html>

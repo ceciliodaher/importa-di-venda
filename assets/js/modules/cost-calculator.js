@@ -52,7 +52,16 @@ Funcionalidades:
                 throw new Error('Dados da DI não disponíveis para cálculo');
             }
             
+            // Obter despesas extras configuradas pelo usuário
+            const despesasExtras = this.obterDespesasExtras();
+            
+            // Obter taxa de câmbio configurada
+            const taxaCambio = this.obterTaxaCambio(dados);
+            
             const calculoConfig = this.prepararConfiguracao(config);
+            calculoConfig.despesasExtras = despesasExtras;
+            calculoConfig.taxaCambio = taxaCambio;
+            
             const resultados = {
                 adicoes: [],
                 totais: {
@@ -61,6 +70,8 @@ Funcionalidades:
                     despesasExtraDI: {
                         baseICMS: 0,
                         naoBaseICMS: 0,
+                        incluirNF: 0,
+                        apenasParaCusto: 0,
                         total: 0
                     },
                     impostos: {
@@ -104,6 +115,44 @@ Funcionalidades:
             });
             
             return resultados;
+        },
+        
+        // Obter despesas extras configuradas pelo usuário
+        obterDespesasExtras: function() {
+            if (ExpertzyDI.modules.despesasExtras) {
+                return ExpertzyDI.modules.despesasExtras.obterDespesas();
+            }
+            
+            // Retornar estrutura vazia se módulo não estiver disponível
+            return {
+                lista: [],
+                totais: {
+                    baseICMS: 0,
+                    foraBase: 0,
+                    incluirNF: 0,
+                    apenasParaCusto: 0,
+                    total: 0
+                }
+            };
+        },
+        
+        // Obter taxa de câmbio configurada
+        obterTaxaCambio: function(dados) {
+            // Primeiro tentar obter do módulo de câmbio
+            if (ExpertzyDI.modules.cambio) {
+                const taxaEfetiva = ExpertzyDI.modules.cambio.obterTaxaEfetiva();
+                if (taxaEfetiva > 0) {
+                    return taxaEfetiva;
+                }
+            }
+            
+            // Sempre usar taxa da DI como padrão
+            if (dados && dados.taxaCambio && dados.taxaCambio > 0) {
+                return dados.taxaCambio;
+            }
+            
+            // Se não houver taxa na DI, lançar erro
+            throw new Error('Taxa de câmbio não disponível na DI. Configure manualmente a taxa de câmbio.');
         },
         
         // Preparar configuração de cálculo
@@ -294,6 +343,9 @@ Funcionalidades:
             let valorICMS = 0;
             let baseICMS = 0;
             
+            // Obter despesas extras que compõem a base do ICMS
+            const despesasBaseICMS = config.despesasExtras ? config.despesasExtras.totais.baseICMS : 0;
+            
             const aliquotaICMS = (adicao.impostos && adicao.impostos.ICMS) ? 
                                adicao.impostos.ICMS.aliquota : 
                                config.aliquotaICMSPadrao;
@@ -301,7 +353,7 @@ Funcionalidades:
             if (aliquotaICMS && aliquotaICMS > 0) {
                 // Base do ICMS: (CIF + II + IPI + PIS + COFINS + AFRMM + SISCOMEX + Despesas Base ICMS) / (1 - Aliq ICMS)
                 const baseICMSIntermediaria = baseCIF + valorII + valorIPI + valorPIS + valorCOFINS + 
-                                            config.afrmm + config.siscomex + totaisDespesasExtraDI.baseICMS;
+                                            config.afrmm + config.siscomex + despesasBaseICMS;
                 
                 // Aplicar redução de base se configurada
                 const fatorReducao = 1 - config.reducaoBaseICMS;
@@ -335,8 +387,9 @@ Funcionalidades:
             }
             
             // Passo 8: Custo total da mercadoria (incluindo todas as despesas)
+            const despesasTotais = config.despesasExtras ? config.despesasExtras.totais.total : 0;
             const custoTotalMercadoria = baseCIF + valorII + valorIPI + valorPIS + valorCOFINS + valorICMS + 
-                                       config.afrmm + config.siscomex + totaisDespesasExtraDI.total;
+                                       config.afrmm + config.siscomex + despesasTotais;
             const quantidadeTotal = adicao.quantidade || 1;
             const custoUnitario = custoTotalMercadoria / quantidadeTotal;
             
@@ -346,7 +399,7 @@ Funcionalidades:
                 formula: 'CIF + II + IPI + PIS + COFINS + ICMS + AFRMM + SISCOMEX + Despesas Extra-DI',
                 detalhes: {
                     custoSemDespesasExtraDI: baseCIF + valorII + valorIPI + valorPIS + valorCOFINS + valorICMS + config.afrmm + config.siscomex,
-                    despesasExtraDI: totaisDespesasExtraDI.total,
+                    despesasExtraDI: despesasTotais,
                     custoTotal: custoTotalMercadoria,
                     quantidade: quantidadeTotal,
                     custoUnitario: custoUnitario

@@ -1,0 +1,249 @@
+/*
+DESPESAS-EXTRAS.CSS - Estilos para Módulo de Despesas Extras
+Expertzy Inteligência Tributária
+*/
+
+/* Container Principal */
+.despesas-extras-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--expertzy-light);
+    border-radius: 8px;
+    border: 1px solid rgba(9, 26, 48, 0.1);
+}
+
+/* Toolbar de Despesas */
+.despesas-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(9, 26, 48, 0.1);
+}
+
+.despesas-templates {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.template-label {
+    font-size: 0.875rem;
+    color: var(--expertzy-blue);
+    font-weight: 500;
+}
+
+.template-btn {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    background: transparent;
+    color: var(--expertzy-red);
+    border: 1px solid var(--expertzy-red);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.template-btn:hover {
+    background: var(--expertzy-red);
+    color: white;
+}
+
+/* Lista de Despesas */
+.despesas-lista {
+    margin: 1rem 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.despesa-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto auto auto auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(9, 26, 48, 0.08);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.despesa-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.despesa-descricao {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid rgba(9, 26, 48, 0.2);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.despesa-valor {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid rgba(9, 26, 48, 0.2);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+.despesa-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.despesa-checkbox input {
+    margin: 0;
+}
+
+.btn-remover-despesa {
+    padding: 0.25rem 0.5rem;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.btn-remover-despesa:hover {
+    background: #c82333;
+}
+
+/* Totais de Despesas */
+.despesas-totais {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background: rgba(9, 26, 48, 0.05);
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.total-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.total-item span:first-child {
+    font-size: 0.8rem;
+    color: var(--expertzy-blue);
+    margin-bottom: 0.25rem;
+}
+
+.total-item span:last-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--expertzy-blue);
+}
+
+.total-geral {
+    padding: 0.5rem 1rem;
+    background: var(--expertzy-red);
+    color: white !important;
+    border-radius: 6px;
+}
+
+.total-geral span {
+    color: white !important;
+}
+
+/* Configuração de Câmbio */
+.cambio-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--expertzy-light);
+    border-radius: 8px;
+    border: 1px solid rgba(9, 26, 48, 0.1);
+}
+
+.cambio-opcoes {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.expertzy-radio {
+    margin-right: 0.5rem;
+}
+
+.cambio-config {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+}
+
+.contratos-lista {
+    margin: 1rem 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.contrato-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: white;
+    border: 1px solid rgba(9, 26, 48, 0.1);
+    border-radius: 4px;
+}
+
+.contrato-item input {
+    padding: 0.25rem;
+    border: 1px solid rgba(9, 26, 48, 0.2);
+    border-radius: 4px;
+}
+
+.cambio-medio {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: rgba(255, 0, 45, 0.1);
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.cambio-medio span:first-child {
+    font-weight: 500;
+    color: var(--expertzy-blue);
+}
+
+.cambio-medio span:last-child {
+    font-weight: bold;
+    color: var(--expertzy-red);
+    font-size: 1.1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .despesas-templates {
+        flex-wrap: wrap;
+    }
+    
+    .despesa-item {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .despesas-totais {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .cambio-opcoes {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
