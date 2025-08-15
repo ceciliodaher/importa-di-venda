@@ -1,0 +1,90 @@
+/*
+EXPERTZY INTELIGÊNCIA TRIBUTÁRIA
+© 2025 Expertzy Inteligência Tributária
+CSS Reset Otimizado - Sem conflitos com sistema Expertzy
+*/
+
+/* Box sizing reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* HTML setup */
+html {
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: none;
+    -moz-tab-size: 4;
+    tab-size: 4;
+}
+
+/* Body - REMOVIDO font-family para evitar conflitos */
+body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Font será definida pelo sistema Expertzy */
+}
+
+/* Remove list styles */
+ul, ol {
+    list-style: none;
+}
+
+/* Reset links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Reset buttons - removido font: inherit para evitar conflitos */
+button, input, select, textarea {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Reset tables */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Reset images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Hidden elements */
+[hidden] {
+    display: none !important;
+}
+
+/* Responsive media */
+iframe, object, embed {
+    max-width: 100%;
+}
+
+/* Print styles */
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+}
