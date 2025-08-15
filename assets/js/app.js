@@ -172,6 +172,7 @@ Cores Corporativas:
             
             this.setupEventListeners();
             this.initializeModules();
+            this.setupDragAndDrop();
             this.updateStatus('waiting', 'Aguardando arquivo XML');
             
             // Log de inicialização
@@ -250,6 +251,20 @@ Cores Corporativas:
         initializeModules: function() {
             // Os módulos serão inicializados quando os scripts forem carregados
             // Cada módulo se registrará automaticamente no namespace
+        },
+        
+        // Configurar drag and drop
+        setupDragAndDrop: function() {
+            if (this.utils.file && this.utils.file.setupDragAndDrop) {
+                this.utils.file.setupDragAndDrop();
+            } else {
+                // Aguardar um pouco para os módulos carregarem
+                setTimeout(() => {
+                    if (this.utils.file && this.utils.file.setupDragAndDrop) {
+                        this.utils.file.setupDragAndDrop();
+                    }
+                }, 100);
+            }
         },
         
         // Manipular seleção de arquivo

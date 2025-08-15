@@ -76,32 +76,44 @@ Expertzy Inteligência Tributária
         
         // Configurar drag and drop
         setupDragAndDrop: function() {
-            const uploadArea = document.getElementById('upload-area');
-            const uploadOverlay = document.getElementById('upload-overlay');
+            const dragDropZone = document.getElementById('dragDropZone');
+            const fileInput = document.getElementById('fileInput');
             
-            if (!uploadArea) return;
+            if (!dragDropZone) return;
             
             // Prevenir comportamento padrão
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, this.preventDefaults, false);
+                dragDropZone.addEventListener(eventName, this.preventDefaults, false);
                 document.body.addEventListener(eventName, this.preventDefaults, false);
             });
             
             // Destacar área de drop
             ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.add('drag-over');
+                dragDropZone.addEventListener(eventName, () => {
+                    dragDropZone.classList.add('drag-over');
                 }, false);
             });
             
             ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.remove('drag-over');
+                dragDropZone.addEventListener(eventName, () => {
+                    dragDropZone.classList.remove('drag-over');
                 }, false);
             });
             
             // Manipular drop
-            uploadArea.addEventListener('drop', this.handleDrop.bind(this), false);
+            dragDropZone.addEventListener('drop', this.handleDrop.bind(this), false);
+            
+            // Click para abrir seletor de arquivo
+            dragDropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Manipular seleção de arquivo via input
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    this.handleFileSelect(e.target.files[0]);
+                }
+            });
             
             ExpertzyDI.log('FILE', 'Drag and Drop configurado');
         },
@@ -118,24 +130,90 @@ Expertzy Inteligência Tributária
             const files = dt.files;
             
             if (files.length > 0) {
-                const file = files[0];
-                
-                // Validar e processar arquivo
-                this.validateFile(file)
-                    .then(() => {
-                        ExpertzyDI.displayFileInfo(file);
-                        
-                        // Armazenar arquivo no estado global
-                        ExpertzyDI.data.currentFile = file;
-                        
-                        ExpertzyDI.log('FILE', 'Arquivo arrastado e validado', {
-                            name: file.name,
-                            size: file.size
-                        });
-                    })
-                    .catch(error => {
-                        ExpertzyDI.showError(error.message);
+                this.handleFileSelect(files[0]);
+            }
+        },
+        
+        // Manipular seleção de arquivo (drop ou click)
+        handleFileSelect: function(file) {
+            // Validar e processar arquivo
+            this.validateFile(file)
+                .then(() => {
+                    this.displayFileInfo(file);
+                    
+                    // Armazenar arquivo no estado global
+                    ExpertzyDI.data.currentFile = file;
+                    
+                    // Processar arquivo automaticamente
+                    this.processFile(file);
+                    
+                    ExpertzyDI.log('FILE', 'Arquivo selecionado e validado', {
+                        name: file.name,
+                        size: file.size
                     });
+                })
+                .catch(error => {
+                    this.showError(error.message);
+                });
+        },
+        
+        // Exibir informações do arquivo
+        displayFileInfo: function(file) {
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            
+            if (fileInfo && fileName) {
+                fileName.textContent = file.name;
+                fileInfo.classList.remove('expertzy-hidden');
+            }
+        },
+        
+        // Processar arquivo XML
+        processFile: function(file) {
+            this.readAsText(file)
+                .then(content => {
+                    // Processar XML usando o módulo XML processor
+                    if (ExpertzyDI.modules.xmlProcessor) {
+                        return ExpertzyDI.modules.xmlProcessor.process(content);
+                    } else {
+                        throw new Error('Módulo de processamento XML não disponível');
+                    }
+                })
+                .then(dados => {
+                    // Armazenar dados processados
+                    ExpertzyDI.data.currentDI = dados;
+                    
+                    // Mostrar seção de configuração
+                    this.showConfigSection();
+                    
+                    ExpertzyDI.log('FILE', 'Arquivo processado com sucesso');
+                })
+                .catch(error => {
+                    this.showError('Erro ao processar arquivo: ' + error.message);
+                });
+        },
+        
+        // Mostrar seção de configuração
+        showConfigSection: function() {
+            const configSection = document.getElementById('configSection');
+            if (configSection) {
+                configSection.classList.remove('expertzy-hidden');
+            }
+        },
+        
+        // Mostrar erro
+        showError: function(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (errorContainer && errorMessage) {
+                errorMessage.textContent = message;
+                errorContainer.classList.remove('expertzy-hidden');
+            }
+            
+            // Também mostrar toast se disponível
+            if (ExpertzyDI.modules.pricingUI && ExpertzyDI.modules.pricingUI.mostrarToast) {
+                ExpertzyDI.modules.pricingUI.mostrarToast(message, 'error');
             }
         },
         
